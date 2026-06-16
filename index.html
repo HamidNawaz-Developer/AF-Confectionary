@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>AF Confectionery | Premium Khoya Toffees</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #fff9f0, #ffe8d4); color: #2d1b0e; scroll-behavior: smooth; }
+        .serif-font { font-family: 'Playfair Display', serif; }
+        
+        /* Navbar - Logo Left, Right side: Cart then Menu */
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; background: linear-gradient(135deg, #1e100a, #2c1a0e); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; z-index: 1000; border-bottom: 3px solid #FFD700; }
+        
+        /* Left side - Logo - Bada aur Bold (Size increase kiya) */
+        .logo { 
+            font-size: 32px; 
+            font-weight: 900; 
+            font-family: 'Playfair Display', serif; 
+            background: linear-gradient(135deg, #FFD700, #FF8C00, #FF6B6B); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            letter-spacing: 1.5px;
+            white-space: nowrap;
+        }
+        
+        /* Right side wrapper - Cart and Menu */
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        
+        /* Cart Icon */
+        .cart-icon { position: relative; cursor: pointer; font-size: 26px; color: #FFD700; text-decoration: none; }
+        .cart-count { position: absolute; top: -8px; right: -12px; background: #EF4444; color: white; font-size: 11px; font-weight: bold; padding: 2px 6px; border-radius: 50%; }
+        
+        /* Menu Button */
+        .menu-btn { font-size: 30px; color: #FFD700; cursor: pointer; background: none; border: none; }
+        
+        /* Desktop Navigation Links */
+        .nav-links { display: none; gap: 35px; list-style: none; }
+        .nav-links a { color: #f0e6d2; text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative; }
+        .nav-links a:hover, .nav-links a.active { color: #FFD700; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, #FFD700, #FF6B6B, #A855F7); transition: width 0.3s ease; }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        
+        /* Mobile Menu Sidebar */
+        .mobile-menu-sidebar { position: fixed; top: 0; right: -280px; width: 280px; height: 100vh; background: #1e100a; z-index: 1002; transition: right 0.3s ease; padding: 80px 25px 30px; box-shadow: -5px 0 20px rgba(0,0,0,0.3); }
+        .mobile-menu-sidebar.open { right: 0; }
+        .mobile-menu-sidebar a { display: block; color: #f0e6d2; text-decoration: none; padding: 12px 0; font-size: 16px; border-bottom: 1px solid rgba(255,215,0,0.2); }
+        .mobile-menu-sidebar a:hover, .mobile-menu-sidebar a.active { color: #FFD700; }
+        .close-menu { position: absolute; top: 15px; right: 20px; font-size: 28px; color: #FFD700; cursor: pointer; background: none; border: none; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1001; display: none; }
+        .overlay.show { display: block; }
+        
+        /* Hero Section */
+        .hero { min-height: 100vh; background: linear-gradient(135deg, #1e100aDD, #2c1a0eCC), url('https://images.unsplash.com/photo-1545048702-79362596cdc9?auto=format&fit=crop&w=1920&q=80') center/cover; display: flex; align-items: center; padding: 120px 8% 80px; color: white; }
+        .hero-content { max-width: 600px; }
+        .hero-tag { background: linear-gradient(135deg, #A855F7, #D946EF); display: inline-block; padding: 6px 16px; border-radius: 50px; font-size: 12px; margin-bottom: 20px; }
+        .hero-content h1 { font-size: 56px; font-family: 'Playfair Display', serif; line-height: 1.2; margin-bottom: 20px; }
+        .hero-content h1 span { background: linear-gradient(135deg, #FFD700, #FF8C00, #FF6B6B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero-content p { font-size: 14px; color: #d1c3bc; margin-bottom: 30px; line-height: 1.6; }
+        .btn-gold { background: linear-gradient(135deg, #FFD700, #FF8C00); padding: 12px 28px; border-radius: 50px; color: #2c1a0e; font-weight: 700; text-decoration: none; display: inline-block; transition: all 0.3s ease; font-size: 14px; }
+        .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(255,140,0,0.4); }
+        
+        /* Slider */
+        .slider-section { padding: 60px 0; background: linear-gradient(135deg, #A855F722, #3B82F622, #10B98122); }
+        .slider-container { position: relative; width: 100%; overflow: hidden; }
+        .slider-images { display: flex; transition: transform 0.5s ease-in-out; }
+        .slider-images img { width: 100%; flex-shrink: 0; height: 450px; object-fit: cover; }
+        .slider-dots { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 10; }
+        .dot { width: 10px; height: 10px; background: white; border-radius: 50%; cursor: pointer; opacity: 0.6; }
+        .dot.active { background: #FFD700; opacity: 1; transform: scale(1.2); }
+        
+        /* Features Section */
+        .features-section { padding: 80px 8%; background: white; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 50px; }
+        .feature-card { text-align: center; padding: 30px; border-radius: 20px; transition: all 0.3s ease; background: linear-gradient(135deg, #fff9f0, #fff5e8); }
+        .feature-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .feature-icon { width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FF8C00); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 36px; color: #2c1a0e; }
+        .feature-card h3 { font-size: 20px; margin-bottom: 10px; }
+        
+        .section-padding { padding: 80px 8%; }
+        .section-title { text-align: center; font-size: 42px; font-family: 'Playfair Display', serif; margin-bottom: 20px; }
+        .section-title span { background: linear-gradient(135deg, #FFD700, #FF8C00, #FF6B6B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .section-subtitle { text-align: center; color: #8b6914; margin-bottom: 40px; font-size: 16px; }
+        
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; margin-bottom: 50px; }
+        .product-card { background: white; border-radius: 20px; overflow: hidden; transition: all 0.3s ease; box-shadow: 0 5px 20px rgba(0,0,0,0.08); cursor: pointer; }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 35px rgba(0,0,0,0.15); }
+        .product-img { height: 220px; background: linear-gradient(135deg, #f5e6d3, #ede0cc); }
+        .product-img img { width: 100%; height: 100%; object-fit: cover; }
+        .product-info { padding: 20px; text-align: center; }
+        .product-info h3 { font-size: 18px; margin-bottom: 8px; }
+        .product-price { font-size: 24px; font-weight: 800; background: linear-gradient(135deg, #FFD700, #FF8C00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 10px 0; }
+        
+        .btn-show-more { text-align: center; margin-top: 20px; }
+        .show-more-btn { background: linear-gradient(135deg, #A855F7, #D946EF); padding: 14px 40px; border-radius: 50px; color: white; font-weight: 700; text-decoration: none; display: inline-block; transition: all 0.3s ease; }
+        .show-more-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(168,85,247,0.4); }
+        
+        /* Testimonials */
+        .testimonials-section { padding: 80px 8%; background: linear-gradient(135deg, #3B82F611, #A855F711); }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 50px; }
+        .testimonial-card { background: white; border-radius: 20px; padding: 30px; text-align: center; transition: all 0.3s ease; }
+        .testimonial-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .testimonial-text { font-style: italic; color: #66554e; margin: 20px 0; line-height: 1.6; }
+        .testimonial-author { font-weight: 700; color: #FFD700; }
+        .stars { color: #FFD700; margin-bottom: 10px; }
+        
+        /* Core Values */
+        .values-section { padding: 80px 8%; background: white; }
+        .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 50px; }
+        .value-card { background: linear-gradient(135deg, #fff9f0, #fff5e8); border-radius: 20px; padding: 35px 25px; text-align: center; transition: all 0.3s ease; }
+        .value-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .value-icon { width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 36px; color: white; }
+        .value-card:nth-child(1) .value-icon { background: linear-gradient(135deg, #FFD700, #FF8C00); }
+        .value-card:nth-child(2) .value-icon { background: linear-gradient(135deg, #10B981, #059669); }
+        .value-card:nth-child(3) .value-icon { background: linear-gradient(135deg, #A855F7, #D946EF); }
+        .value-card:nth-child(4) .value-icon { background: linear-gradient(135deg, #3B82F6, #06B6D4); }
+        
+        /* Footer */
+        .footer { background: linear-gradient(135deg, #0f0a07, #1a110a); padding: 60px 8% 30px; border-top: 3px solid #FFD700; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px; }
+        .footer-col h4 { color: #FFD700; font-size: 18px; margin-bottom: 20px; position: relative; display: inline-block; }
+        .footer-col h4::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 40px; height: 2px; background: linear-gradient(90deg, #FFD700, #FF6B6B); }
+        .footer-col p, .footer-col li { color: #9c8e86; font-size: 14px; margin-bottom: 10px; }
+        .footer-col ul { list-style: none; }
+        .footer-col a { color: #9c8e86; text-decoration: none; transition: all 0.3s ease; }
+        .footer-col a:hover { color: #FFD700; padding-left: 5px; }
+        .social-icons { display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
+        .social-icons a { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; color: white; text-decoration: none; }
+        .social-icons a:nth-child(1) { background: #1877F2; }
+        .social-icons a:nth-child(2) { background: #E4405F; }
+        .social-icons a:nth-child(3) { background: #25D366; }
+        .social-icons a:nth-child(4) { background: #1DA1F2; }
+        .social-icons a:hover { transform: translateY(-3px); }
+        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; background: #25D366; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 28px; text-decoration: none; box-shadow: 0 5px 20px rgba(37,211,102,0.4); z-index: 99; transition: all 0.3s ease; }
+        .whatsapp-float:hover { transform: scale(1.1); }
+        .copyright { text-align: center; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); color: #9c8e86; font-size: 13px; }
+        
+        @media (min-width: 768px) {
+            .menu-btn { display: none; }
+            .nav-right { display: none; }
+            .nav-links { display: flex; margin: 0 auto; }
+            .logo { font-size: 38px; }
+            .hero-content h1 { font-size: 56px; }
+            .slider-images img { height: 500px; }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-content h1 { font-size: 28px; }
+            .logo { font-size: 24px; white-space: normal; text-align: center; line-height: 1.2; }
+            .slider-images img { height: 250px; }
+            .navbar { padding: 12px 5%; }
+        }
+        
+        @media (max-width: 380px) {
+            .logo { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar - Logo Left, Right side: Cart then Menu -->
+    <nav class="navbar">
+        <!-- Left side Logo - Bada aur Bold (Font size 38px desktop, 24px mobile) -->
+        <div class="logo">AF CONFECTIONERY</div>
+        
+        <!-- Right side: Cart + Menu -->
+        <div class="nav-right">
+            <a href="products.html" class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCountDisplay">0</span>
+            </a>
+            <button class="menu-btn" onclick="openMobileMenu()">☰</button>
+        </div>
+        
+        <!-- Desktop Navigation Links -->
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Mobile Menu Sidebar -->
+    <div class="mobile-menu-sidebar" id="mobileMenuSidebar">
+        <button class="close-menu" onclick="closeMobileMenu()">✕</button>
+        <a href="index.html" class="active">Home</a>
+        <a href="products.html">Products</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+    </div>
+    <div class="overlay" id="overlay" onclick="closeMobileMenu()"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-tag">⭐ Since 2006 ⭐</div>
+            <h1>RICH KHOYA<br>TOFFEES:<br><span>A DELUXE<br>PISTACHIO<br>EXPERIENCE</span></h1>
+            <p>Premium khoya toffees handcrafted with pure desi ghee, premium dry fruits, and authentic traditional recipes.</p>
+            <a href="products.html" class="btn-gold">Shop Now →</a>
+        </div>
+    </section>
+
+    <!-- Slider Section -->
+    <section class="slider-section">
+        <div class="slider-container">
+            <div class="slider-images" id="sliderImages">
+                <img src="sliderkhoya.png" alt="Khoya Toffee">
+                <img src="https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=1920&q=80" alt="Premium Sweets">
+                <img src="slider3.png" alt="Pista Khoya">
+                <img src="slider4.png" alt="Gift Box">
+            </div>
+            <div class="slider-dots" id="sliderDots"></div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <h2 class="section-title">Why Choose <span>AF Confectionery?</span></h2>
+        <div class="features-grid">
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-leaf"></i></div><h3>100% Natural</h3><p>No artificial preservatives or colors</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-gem"></i></div><h3>Premium Quality</h3><p>Pure desi ghee & authentic khoya</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-truck"></i></div><h3>Nationwide Delivery</h3><p>Fresh delivery across Pakistan</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-star"></i></div><h3>Family Recipe</h3><p>Authentic taste since 2006</p></div>
+        </div>
+    </section>
+
+    <!-- Best Sellers Section -->
+    <section class="section-padding">
+        <h2 class="section-title">Our <span>Best Sellers</span></h2>
+        <p class="section-subtitle">Most loved by our customers</p>
+        <div class="products-grid" id="featuredProducts"></div>
+        <div class="btn-show-more">
+            <a href="products.html" class="show-more-btn">View All Products →</a>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <h2 class="section-title">What Our <span>Customers Say</span></h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card"><div class="stars">★★★★★</div><p class="testimonial-text">"Best khoya toffees I've ever tasted! Pure quality and authentic taste. Highly recommended!"</p><p class="testimonial-author">- Ahmed Raza</p></div>
+            <div class="testimonial-card"><div class="stars">★★★★★</div><p class="testimonial-text">"The pistachio khoya toffee is amazing! Great packaging and fast delivery."</p><p class="testimonial-author">- Sana Khan</p></div>
+            <div class="testimonial-card"><div class="stars">★★★★★</div><p class="testimonial-text">"Traditional taste like homemade. My family loves AF Confectionery products!"</p><p class="testimonial-author">- Bilal Ahmed</p></div>
+        </div>
+    </section>
+
+    <!-- Core Values -->
+    <section class="values-section">
+        <h2 class="section-title">Our <span>Core Values</span></h2>
+        <div class="values-grid">
+            <div class="value-card"><div class="value-icon">👑</div><h3>Premium Quality</h3><p>Finest ingredients - pure desi ghee, authentic khoya, premium dry fruits.</p></div>
+            <div class="value-card"><div class="value-icon">🤲</div><h3>Artisan Craftsmanship</h3><p>Handcrafted by master confectioners with decades of expertise.</p></div>
+            <div class="value-card"><div class="value-icon">💛</div><h3>Customer Delight</h3><p>Creating sweet moments for every celebration.</p></div>
+            <div class="value-card"><div class="value-icon">🌿</div><h3>Pure Ingredients</h3><p>No artificial additives, only natural goodness.</p></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col"><h4>AF CONFECTIONERY</h4><p>Crafting premium khoya toffees since 2006. Pure ingredients, authentic taste.</p><div class="social-icons"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-twitter"></i></a></div></div>
+            <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="products.html">Products</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+            <div class="footer-col"><h4>Contact Info</h4><p><i class="fas fa-map-marker-alt" style="color:#FFD700;"></i> 186, Fakhar Street, Lahore</p><p><i class="fas fa-phone" style="color:#FFD700;"></i> +92 333 4329581</p><p><i class="fas fa-envelope" style="color:#FFD700;"></i> info@afconfectionery.com</p></div>
+            <div class="footer-col"><h4>Manufacturer</h4><p><strong>A.F CONFECTIONERY</strong><br>186, 8-C, Fakhar Street, Farooq-e-Azam Park, Lahore<br><strong>📞 Mob: 0333-4329581</strong><br>🇵🇰 Product of Pakistan</p></div>
+        </div>
+        <div class="copyright"><p>&copy; 2026 AF Confectionery. Made with <i class="fas fa-heart" style="color:#FF6B6B;"></i> in Pakistan | Premium Khoya Toffees Since 2006</p></div>
+    </footer>
+
+    <a href="https://wa.me/923334329581" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+    <script>
+        // Slider
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slider-images img');
+        const totalSlides = slides.length;
+        const sliderContainer = document.getElementById('sliderImages');
+        const dotsContainer = document.getElementById('sliderDots');
+        
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.onclick = () => { currentSlide = i; updateSlider(); };
+            dotsContainer.appendChild(dot);
+        }
+        
+        function updateSlider() { sliderContainer.style.transform = `translateX(-${currentSlide * 100}%)`; document.querySelectorAll('.dot').forEach((dot, i) => dot.classList.toggle('active', i === currentSlide)); }
+        setInterval(() => { currentSlide = (currentSlide + 1) % totalSlides; updateSlider(); }, 4000);
+        
+        // Mobile Menu Functions
+        function openMobileMenu() { document.getElementById('mobileMenuSidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
+        function closeMobileMenu() { document.getElementById('mobileMenuSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+        
+        // Featured Products - WITHOUT BADGES
+        const featuredProducts = [
+            
+            { name: "Premium Butter Khoya", category: "butter", price: 20, pieces: "10 Pieces", img: "Butterkhoya.jpg" },
+            
+           { name: "Premium Pista Khoya ", category: "pista", price: 20, pieces: "10 Pieces", img: "premiumpistakhoya.png" },
+        
+            { name: "Cashew Khoya Toffee", category: "cashew", price: 20, pieces: "15 Pieces", img: "cashewkhoya.png" },
+            { name: "Molfy Chocolate", price: 10, pieces: "15 Pieces", img: "molfy.jpg" }
+        ];
+        
+        function loadFeatured() {
+            const grid = document.getElementById('featuredProducts');
+            let html = '';
+            featuredProducts.forEach(p => {
+                html += `<div class="product-card" onclick="viewProduct('${p.name}', ${p.price}, '${p.pieces}', '${p.img}')">
+                    <div class="product-img"><img src="${p.img}" alt="${p.name}"></div>
+                    <div class="product-info"><h3>${p.name}</h3><p>${p.pieces} | Rich Taste of Milk</p><div class="product-price">Rs. ${p.price}</div></div>
+                </div>`;
+            });
+            grid.innerHTML = html;
+        }
+        
+        function viewProduct(name, price, pieces, img) {
+            localStorage.setItem('selectedProduct', JSON.stringify({ name, price, pieces, img }));
+            window.location.href = 'product-detail.html';
+        }
+        
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        function updateCartCount() { document.getElementById('cartCountDisplay').innerText = cart.length; }
+        
+        loadFeatured();
+        updateCartCount();
+    </script>
+</body>
+</html>
